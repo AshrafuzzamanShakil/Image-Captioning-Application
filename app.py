@@ -7,16 +7,11 @@ import pickle
 import os
 import tensorflow as tf
 
-# ✅ Disable GPU (Render only provides CPU)
+# ✅ Disable GPU (Render does NOT support GPU)
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-# ✅ Limit TensorFlow memory usage (prevents crashes)
-physical_devices = tf.config.list_physical_devices("CPU")
-if physical_devices:
-    tf.config.set_logical_device_configuration(
-        physical_devices[0],
-        [tf.config.LogicalDeviceConfiguration(memory_limit=256)]  # Adjust as needed
-    )
+# ✅ Avoid memory limit errors (Only use for GPU, not needed for CPU)
+# Removed: tf.config.set_logical_device_configuration(...)
 
 app = Flask(__name__)
 
