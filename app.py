@@ -7,11 +7,9 @@ import pickle
 import os
 import tensorflow as tf
 
-# ✅ Disable GPU (Render does NOT support GPU)
+# ✅ Fully disable GPU (Fix cuDNN/cuBLAS errors)
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-
-# ✅ Avoid memory limit errors (Only use for GPU, not needed for CPU)
-# Removed: tf.config.set_logical_device_configuration(...)
+tf.config.set_visible_devices([], 'GPU')
 
 app = Flask(__name__)
 
@@ -81,5 +79,6 @@ def home():
     return "✅ Image Captioning API is running!"
 
 if __name__ == "__main__":
+    # ✅ Fix "No Open Ports Detected" error in Render
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
